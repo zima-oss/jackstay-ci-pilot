@@ -1,0 +1,25 @@
+name: Protected receipt pilot
+on:
+  push:
+    branches: ["receipt-provenance-pilot-uzficl"]
+permissions:
+  contents: read
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: "receipt-signing-pilot-uzficl"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Count the synthetic gate and sign its report
+        run: python3 sign-fixture.py
+        env:
+          PILOT_SIGNING_KEY: ${{ secrets.PILOT_SIGNING_KEY }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: protected-receipt
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
