@@ -1,14 +1,14 @@
 name: Protected receipt pilot
 on:
   push:
-    branches: ["receipt-provenance-pilot-uzficl"]
+    branches: ["main"]
 permissions:
   contents: read
 jobs:
   sign:
     runs-on: ubuntu-latest
     timeout-minutes: 8
-    environment: "receipt-signing-pilot-uzficl"
+    environment: "receipt-signing"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
